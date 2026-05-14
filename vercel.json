@@ -3,6 +3,7 @@
   "outputDirectory": "dist",
   "functions": {
     "api/generate.ts": {
+      "includeFiles": "server/generate.ts",
       "maxDuration": 60
     }
   }
