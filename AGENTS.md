@@ -72,11 +72,13 @@ npm run build
 
 后端：
 
-- Node.js + Express + TypeScript
-- 通过 `tsx watch server/index.ts` 运行
+- 本地开发：Node.js + Express + TypeScript，通过 `tsx watch server/index.ts` 运行
+- Vercel 线上：`api/generate.ts` Serverless Function，复用 `server/generate.ts`
 - `server/index.ts`
 - `server/generate.ts`
 - `server/generate.test.ts`
+- `api/generate.ts`
+- `api/generate.test.ts`
 
 ## 当前 UI 状态
 
@@ -115,7 +117,7 @@ POST /api/generate
 
 ## AI 配置
 
-后端读取 `.env`：
+后端读取 `.env` 或 Vercel 环境变量：
 
 ```env
 AI_BASE_URL=http://example-host:3000/v1
@@ -128,9 +130,34 @@ PORT=8787
 
 - `AI_BASE_URL` 必须是基础 `/v1` 地址，不要写完整 `/chat/completions`。
 - 后端会请求 `${AI_BASE_URL}/chat/completions`。
-- 前端不能读取或暴露 `AI_API_KEY`。
+- 前端不能读取或暴露 `AI_API_KEY`，不要使用 `VITE_*` 保存密钥。
 - `.env` 已被 git 忽略，不要打印、提交或复制真实 API Key。
 - 普通 HTTP 中转站必须使用 `http`，不要误写成 `https`。
+
+## Vercel 部署
+
+线上部署采用 Vite 前端 + Vercel Function：
+
+- `vercel.json` 指定 `npm run build`、输出目录 `dist`，并为 `api/generate.ts` 设置函数配置。
+- `api/generate.ts` 是线上 `/api/generate` 入口；本地 Express 的 `server/index.ts` 只用于开发。
+- `api/generate.ts` 导入 `server/generate.ts` 时必须使用显式 `.ts` 扩展名。
+- `vercel.json` 的 `functions.api/generate.ts.includeFiles` 必须包含 `server/generate.ts`，否则线上会 `ERR_MODULE_NOT_FOUND`。
+- Vercel 环境变量必须是 `AI_BASE_URL`、`AI_API_KEY`、`AI_MODEL`；不要填成 `VITE_OPENAI_API_KEY` 或 `VITE_API_BASE_URL`。
+- 修改 Vercel 环境变量后需要 Redeploy，当前部署才会读取新值。
+
+部署验证：
+
+```powershell
+npm test
+npm run build
+```
+
+线上排障顺序：
+
+1. `GET /api/generate` 应返回 `405`；如果返回 `500 FUNCTION_INVOCATION_FAILED`，先看 Vercel Runtime Logs。
+2. 缺字段 `POST /api/generate` 应返回 `400`，可用于确认函数能进入校验逻辑且不会消耗模型额度。
+3. 真实生成失败时，再检查 `AI_BASE_URL`、`AI_API_KEY`、`AI_MODEL` 和上游 OpenAI-compatible 响应。
+4. 使用 Vercel CLI 时，本机 Karing 代理端口为 `3067`，可用 `git -c http.proxy=http://127.0.0.1:3067 -c https.proxy=http://127.0.0.1:3067 push` 推送。
 
 ## 后端生成策略
 
@@ -171,13 +198,14 @@ npm run build
 
 生成失败时按顺序排查：
 
-1. 前端是否可访问：`http://localhost:5173`。
-2. 后端是否可访问：`http://localhost:8787/api/generate`。
-3. 修改 `.env` 后是否重启了后端。
-4. `AI_BASE_URL` 是否使用正确协议和 `/v1` 基础地址。
-5. 上游是否返回 OpenAI-compatible 响应。
-6. 后端是否运行了最新 `server/generate.ts`。
-7. 测试是否覆盖当前失败形态。
+1. 前端是否可访问：`http://localhost:5173` 或 Vercel 页面。
+2. 本地后端是否可访问：`http://localhost:8787/api/generate`。
+3. 线上 `GET /api/generate` 是否返回 `405`。
+4. 修改 `.env` 或 Vercel 环境变量后是否重启/重新部署。
+5. `AI_BASE_URL` 是否使用正确协议和 `/v1` 基础地址。
+6. 上游是否返回 OpenAI-compatible 响应。
+7. 后端是否运行了最新 `server/generate.ts`。
+8. 测试是否覆盖当前失败形态。
 
 ## Git 与本地文件
 
