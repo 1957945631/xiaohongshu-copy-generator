@@ -1,5 +1,5 @@
 import process from "node:process";
-import { generateCopy } from "../server/generate";
+import { generateCopy } from "../server/generate.ts";
 
 type ApiRequest = {
   method?: string;
