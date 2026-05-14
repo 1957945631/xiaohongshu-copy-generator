@@ -1,1 +1,8 @@
 .DS_Store
+node_modules/
+dist/
+.env
+.env.local
+dev-server*.log
+api-server*.log
+client-server*.log
