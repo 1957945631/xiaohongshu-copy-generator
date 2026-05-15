@@ -1,198 +1,217 @@
-<a href="https://github.com/VoltAgent/voltagent">
-     <img width="1500"  alt="claude-skills" src="https://github.com/user-attachments/assets/d012a0d2-cec3-4630-ba5e-acc339dbe6cf" />
-</a>
+# 小红书爆款文案生成器
 
+一个面向小红书内容创作的本地网页工具。输入产品或服务信息后，应用会调用 OpenAI-compatible 模型，一次生成 3 套可对比、可复制的小红书笔记文案。
 
-<br/>
-<br/>
+> 说明：本仓库保留了原始开源项目 `VoltAgent/awesome-design-md` 的 `design-md/` 设计文档集合，用于 UI 参考和学习。本 README 介绍的是当前追加开发的“小红书爆款文案生成器”应用。
 
-<div align="center">
-    <strong>Curated collection of DESIGN.md files inspired by developer focused websites.</strong>
-    <br />
-    <br />
+## 功能特点
 
-</div>
+- 首屏即创作工作台，不做营销长页。
+- 输入产品名称、核心卖点、目标人群、使用场景和优惠信息。
+- 支持选择文案方向和语气风格。
+- 一次生成 3 套小红书笔记方案。
+- 每套结果包含标题、封面短句、正文和话题标签。
+- 结果分页查看，适合横向比较后复制发布。
+- 前端不暴露 API Key，所有模型请求都通过后端代理完成。
 
-<div align="center">
+## 技术栈
 
-[![Awesome](https://awesome.re/badge.svg)](https://awesome.re)
-![DESIGN.md Count](https://img.shields.io/badge/DESIGN.md%20count-73-10b981?style=classic)
-[![Last Update](https://img.shields.io/github/last-commit/VoltAgent/awesome-design-md?label=Last%20update&style=classic)](https://github.com/VoltAgent/awesome-design-md)
-[![Discord](https://img.shields.io/discord/1361559153780195478.svg?label=&logo=discord&logoColor=ffffff&color=7389D8&labelColor=6A7EC2)](https://s.voltagent.dev/discord)
+前端：
 
-</div>
-</div>
+- React 19
+- Vite
+- TypeScript
+- lucide-react
 
-# Awesome DESIGN.md
+后端：
 
-Copy a DESIGN.md into your project, tell your AI agent "build me a page that looks like this" and get pixel-perfect UI that actually matches.
+- Node.js
+- Express
+- TypeScript
+- Vercel Serverless Function
 
+测试与构建：
 
-## What is DESIGN.md?
+- Vitest
+- TypeScript Compiler
+- Vite Build
 
-[DESIGN.md](https://stitch.withgoogle.com/docs/design-md/overview/) is a new concept introduced by Google Stitch. A plain-text design system document that AI agents read to generate consistent UI.
+## 项目结构
 
-It's just a markdown file. No Figma exports, no JSON schemas, no special tooling. Drop it into your project root and any AI coding agent or Google Stitch instantly understands how your UI should look. Markdown is the format LLMs read best, so there's nothing to parse or configure.
+```text
+.
+├── api/
+│   ├── generate.ts          # Vercel 线上 /api/generate 入口
+│   └── generate.test.ts
+├── server/
+│   ├── index.ts             # 本地 Express 开发服务
+│   ├── generate.ts          # 文案生成、解析、兜底逻辑
+│   └── generate.test.ts
+├── src/
+│   ├── App.tsx              # 单页应用主界面
+│   ├── App.test.tsx
+│   ├── main.tsx
+│   └── styles.css
+├── design-md/               # 原始开源设计文档集合，作为 UI 参考保留
+├── vercel.json              # Vercel 构建与函数配置
+├── package.json
+└── README.md
+```
 
-| File | Who reads it | What it defines |
-|------|-------------|-----------------|
-| `AGENTS.md` | Coding agents | How to build the project |
-| `DESIGN.md` | Design agents | How the project should look and feel |
+## 快速开始
 
-**This repo provides ready-to-use DESIGN.md files** extracted from real websites. 
+安装依赖：
 
-## Request a DESIGN.md
+```powershell
+npm install
+```
 
-You can [request a DESIGN.md](https://getdesign.md/request) for specific website, including private requests delivered exclusively to you.
+复制环境变量示例：
 
-## Sponsors ❤️
+```powershell
+Copy-Item .env.example .env
+```
 
-Become a Sponsor [1M+ view] — your logo here and get listed on [getdesign.md](https://getdesign.md/)
+编辑 `.env`：
 
-## Collection
+```env
+AI_BASE_URL=http://example-host:3000/v1
+AI_API_KEY=your-api-key
+AI_MODEL=your-model-name
+PORT=8787
+```
 
-### AI & LLM Platforms
+启动前端和后端：
 
-- [**Claude**](https://getdesign.md/claude/design-md) - Anthropic's AI assistant. Warm terracotta accent, clean editorial layout
-- [**Cohere**](https://getdesign.md/cohere/design-md) - Enterprise AI platform. Vibrant gradients, data-rich dashboard aesthetic
-- [**ElevenLabs**](https://getdesign.md/elevenlabs/design-md) - AI voice platform. Dark cinematic UI, audio-waveform aesthetics
-- [**Minimax**](https://getdesign.md/minimax/design-md) - AI model provider. Bold dark interface with neon accents
-- [**Mistral AI**](https://getdesign.md/mistral.ai/design-md) - Open-weight LLM provider. French-engineered minimalism, purple-toned
-- [**Ollama**](https://getdesign.md/ollama/design-md) - Run LLMs locally. Terminal-first, monochrome simplicity
-- [**OpenCode AI**](https://getdesign.md/opencode.ai/design-md) - AI coding platform. Developer-centric dark theme
-- [**Replicate**](https://getdesign.md/replicate/design-md) - Run ML models via API. Clean white canvas, code-forward
-- [**Runway**](https://getdesign.md/runwayml/design-md) - AI creative-tools platform with an editorial film-festival aesthetic — cinematic dark heroes, paper-white reading bands, single proprietary sans, and pure black pill CTAs.
-- [**Together AI**](https://getdesign.md/together.ai/design-md) - Open-source AI infrastructure. Technical, blueprint-style design
-- [**VoltAgent**](https://getdesign.md/voltagent/design-md) - AI agent framework. Void-black canvas, emerald accent, terminal-native
-- [**xAI**](https://getdesign.md/x.ai/design-md) - Elon Musk's AI lab. Stark monochrome, futuristic minimalism
+```powershell
+npm run dev
+```
 
-### Developer Tools & IDEs
+默认访问地址：
 
-- [**Cursor**](https://getdesign.md/cursor/design-md) - AI-first code editor. Sleek dark interface, gradient accents
-- [**Expo**](https://getdesign.md/expo/design-md) - React Native platform. Dark theme, tight letter-spacing, code-centric
-- [**Lovable**](https://getdesign.md/lovable/design-md) - AI full-stack builder. Playful gradients, friendly dev aesthetic
-- [**Raycast**](https://getdesign.md/raycast/design-md) - Productivity launcher. Sleek dark chrome, vibrant gradient accents
-- [**Superhuman**](https://getdesign.md/superhuman/design-md) - Fast email client. Premium dark UI, keyboard-first, purple glow
-- [**Vercel**](https://getdesign.md/vercel/design-md) - Frontend deployment platform. Black and white precision, Geist font
-- [**Warp**](https://getdesign.md/warp/design-md) - Modern terminal. Dark IDE-like interface, block-based command UI
+- 前端：`http://localhost:5173`
+- 后端：`http://localhost:8787`
+- 生成接口：`POST http://localhost:8787/api/generate`
 
-### Backend, Database & DevOps
+如果 `5173` 被占用，Vite 会自动使用 `5174`、`5175` 等端口。
 
-- [**ClickHouse**](https://getdesign.md/clickhouse/design-md) - Fast analytics database. Yellow-accented, technical documentation style
-- [**Composio**](https://getdesign.md/composio/design-md) - Tool integration platform. Modern dark with colorful integration icons
-- [**HashiCorp**](https://getdesign.md/hashicorp/design-md) - Infrastructure automation. Enterprise-clean, black and white
-- [**MongoDB**](https://getdesign.md/mongodb/design-md) - Document database. Green leaf branding, developer documentation focus
-- [**PostHog**](https://getdesign.md/posthog/design-md) - Product analytics. Playful hedgehog branding, developer-friendly dark UI
-- [**Sanity**](https://getdesign.md/sanity/design-md) - Headless content platform with a dark-first editorial marketing surface — 112px display type, IBM Plex Mono technical eyebrows, and a single coral-red accent reserved for the highest-priority CTA.
-- [**Sentry**](https://getdesign.md/sentry/design-md) - Error monitoring. Dark dashboard, data-dense, pink-purple accent
-- [**Supabase**](https://getdesign.md/supabase/design-md) - Open-source Firebase alternative. Dark emerald theme, code-first
+## 常用命令
 
-### Productivity & SaaS
+```powershell
+npm run dev      # 同时启动前端和后端
+npm run client   # 只启动前端
+npm run server   # 只启动后端
+npm test         # 运行测试
+npm run build    # 类型检查并构建前端
+```
 
-- [**Cal.com**](https://getdesign.md/cal/design-md) - Open-source scheduling. Clean neutral UI, developer-oriented simplicity
-- [**Intercom**](https://getdesign.md/intercom/design-md) - Customer messaging. Friendly blue palette, conversational UI patterns
-- [**Linear**](https://getdesign.md/linear.app/design-md) - Project management for engineers. Ultra-minimal, precise, purple accent
-- [**Mintlify**](https://getdesign.md/mintlify/design-md) - Documentation platform. Clean, green-accented, reading-optimized
-- [**Notion**](https://getdesign.md/notion/design-md) - All-in-one workspace. Warm minimalism, serif headings, soft surfaces
-- [**Resend**](https://getdesign.md/resend/design-md) - Email API for developers. Minimal dark theme, monospace accents
-- [**Zapier**](https://getdesign.md/zapier/design-md) - Automation platform. Warm orange, friendly illustration-driven
+## API 说明
 
-### Design & Creative Tools
+前端调用：
 
-- [**Airtable**](https://getdesign.md/airtable/design-md) - Spreadsheet-database hybrid. Colorful, friendly, structured data aesthetic
-- [**Clay**](https://getdesign.md/clay/design-md) - Creative agency. Organic shapes, soft gradients, art-directed layout
-- [**Figma**](https://getdesign.md/figma/design-md) - Collaborative design tool. Vibrant multi-color, playful yet professional
-- [**Framer**](https://getdesign.md/framer/design-md) - Website builder. Bold black and blue, motion-first, design-forward
-- [**Miro**](https://getdesign.md/miro/design-md) - Visual collaboration. Bright yellow accent, infinite canvas aesthetic
-- [**Webflow**](https://getdesign.md/webflow/design-md) - Visual web builder. Blue-accented, polished marketing site aesthetic
+```http
+POST /api/generate
+```
 
-### Fintech & Crypto
+请求体：
 
-- [**Binance**](https://getdesign.md/binance/design-md) - Crypto exchange. Bold Binance Yellow on monochrome, trading-floor urgency
-- [**Coinbase**](https://getdesign.md/coinbase/design-md) - Crypto exchange. Clean blue identity, trust-focused, institutional feel
-- [**Kraken**](https://getdesign.md/kraken/design-md) - Crypto trading platform. Purple-accented dark UI, data-dense dashboards
-- [**Mastercard**](https://getdesign.md/mastercard/design-md) - Global payments network. Warm cream canvas, orbital pill shapes, editorial warmth
-- [**Revolut**](https://getdesign.md/revolut/design-md) - Digital banking. Sleek dark interface, gradient cards, fintech precision
-- [**Stripe**](https://getdesign.md/stripe/design-md) - Payment infrastructure. Signature purple gradients, weight-300 elegance
-- [**Wise**](https://getdesign.md/wise/design-md) - International money transfer. Bright green accent, friendly and clear
+```json
+{
+  "productName": "夏日连衣裙",
+  "sellingPoints": "高腰显瘦、面料透气、通勤约会都能穿",
+  "targetAudience": "小个子女生",
+  "scenario": "夏日出游、日常通勤",
+  "offer": "限时 8 折",
+  "direction": "种草推荐",
+  "tone": "真诚"
+}
+```
 
-### E-commerce & Retail
+响应体：
 
-- [**Airbnb**](https://getdesign.md/airbnb/design-md) - Travel marketplace. Warm coral accent, photography-driven, rounded UI
-- [**Meta**](https://getdesign.md/meta/design-md) - Tech retail store. Photography-first, binary light/dark surfaces, Meta Blue CTAs
-- [**Nike**](https://getdesign.md/nike/design-md) - Athletic retail. Monochrome UI, massive uppercase Futura, full-bleed photography
-- [**Shopify**](https://getdesign.md/shopify/design-md) - E-commerce platform. Dark-first cinematic, neon green accent, ultra-light display type
-- [**Starbucks**](https://getdesign.md/starbucks/design-md) - Coffee retail flagship. Four-tier earth-green system, warm cream canvas, proprietary SoDoSans typography
+```json
+{
+  "variants": [
+    {
+      "label": "情绪种草版",
+      "title": "标题",
+      "coverText": "封面短句",
+      "body": "正文内容",
+      "hashtags": ["小红书种草", "穿搭分享"]
+    }
+  ]
+}
+```
 
-### Media & Consumer Tech
+## AI 配置说明
 
-- [**Apple**](https://getdesign.md/apple/design-md) - Consumer electronics. Premium white space, SF Pro, cinematic imagery
-- [**HP**](https://getdesign.md/hp/design-md) - PC and printer maker. Pure white canvas, HP Electric Blue signal CTA, geometric Forma DJR Micro, blue chevron decorations
-- [**IBM**](https://getdesign.md/ibm/design-md) - Enterprise technology. Carbon design system, structured blue palette
-- [**NVIDIA**](https://getdesign.md/nvidia/design-md) - GPU computing. Green-black energy, technical power aesthetic
-- [**Pinterest**](https://getdesign.md/pinterest/design-md) - Visual discovery platform. Red accent, masonry grid, image-first
-- [**PlayStation**](https://getdesign.md/playstation/design-md) - Gaming console retail. Three-surface channel layout, cyan hover-scale interaction
-- [**SpaceX**](https://getdesign.md/spacex/design-md) - Space technology. Stark black and white, full-bleed imagery, futuristic
-- [**Spotify**](https://getdesign.md/spotify/design-md) - Music streaming. Vibrant green on dark, bold type, album-art-driven
-- [**The Verge**](https://getdesign.md/theverge/design-md) - Tech editorial media. Acid-mint and ultraviolet accents, Manuka display type
-- [**Uber**](https://getdesign.md/uber/design-md) - Mobility platform. Bold black and white, tight type, urban energy
-- [**Vodafone**](https://getdesign.md/vodafone/design-md) - Global telecom brand. Monumental uppercase display, Vodafone Red chapter bands
-- [**WIRED**](https://getdesign.md/wired/design-md) - Tech magazine. Paper-white broadsheet density, custom serif, ink-blue links
+后端读取 `.env` 或 Vercel 环境变量：
 
-### Automotive
+```env
+AI_BASE_URL=http://example-host:3000/v1
+AI_API_KEY=your-api-key
+AI_MODEL=your-model-name
+PORT=8787
+```
 
-- [**BMW**](https://getdesign.md/bmw/design-md) - Luxury automotive. Dark premium surfaces, precise German engineering aesthetic
-- [**BMW M**](https://getdesign.md/bmw-m/design-md) - Performance automotive. Motorsport-inspired contrast, M color accents, precision-driven layout
-- [**Bugatti**](https://getdesign.md/bugatti/design-md) - Luxury hypercar. Cinema-black canvas, monochrome austerity, monumental display type
-- [**Ferrari**](https://getdesign.md/ferrari/design-md) - Luxury automotive. Chiaroscuro black-white editorial, Ferrari Red with extreme sparseness
-- [**Lamborghini**](https://getdesign.md/lamborghini/design-md) - Luxury automotive. True black cathedral, gold accent, LamboType custom Neo-Grotesk
-- [**Renault**](https://getdesign.md/renault/design-md) - French automotive. Vivid aurora gradients, NouvelR proprietary typeface, zero-radius buttons
-- [**Tesla**](https://getdesign.md/tesla/design-md) - Electric vehicles. Radical subtraction, cinematic full-viewport photography, Universal Sans
+注意事项：
 
+- `AI_BASE_URL` 必须是基础 `/v1` 地址，不要写完整 `/chat/completions`。
+- 后端实际请求地址是 `${AI_BASE_URL}/chat/completions`。
+- 前端不会读取或暴露 `AI_API_KEY`。
+- 不要使用 `VITE_*` 保存密钥。
+- 普通 HTTP 中转站需要使用 `http`，不要误写成 `https`。
+- `.env` 已被 git 忽略，不要提交真实 API Key。
 
-## What's Inside Each DESIGN.md
+## 生成策略
 
-Every file follows the [Stitch DESIGN.md format](https://stitch.withgoogle.com/docs/design-md/format/) with extended sections:
+核心生成逻辑在 `server/generate.ts`，负责：
 
-| # | Section | What it captures |
-|---|---------|-----------------|
-| 1 | Visual Theme & Atmosphere | Mood, density, design philosophy |
-| 2 | Color Palette & Roles | Semantic name + hex + functional role |
-| 3 | Typography Rules | Font families, full hierarchy table |
-| 4 | Component Stylings | Buttons, cards, inputs, navigation with states |
-| 5 | Layout Principles | Spacing scale, grid, whitespace philosophy |
-| 6 | Depth & Elevation | Shadow system, surface hierarchy |
-| 7 | Do's and Don'ts | Design guardrails and anti-patterns |
-| 8 | Responsive Behavior | Breakpoints, touch targets, collapsing strategy |
-| 9 | Agent Prompt Guide | Quick color reference, ready-to-use prompts |
+- 校验请求字段。
+- 构造小红书文案提示词。
+- 请求 OpenAI-compatible Chat Completions API。
+- 将模型输出规范化为 `{ variants: [...] }`。
+- 兼容 Markdown 代码块、JSON 前后说明文字、顶层数组、常见字段别名、标签字符串、content block 和 tool call arguments。
+- 首次解析失败时请求模型做严格 JSON 修复。
+- 修复仍失败时，根据模型原始文本和用户输入生成 3 套可展示兜底文案。
 
-Each site includes:
+## Vercel 部署
 
-| File | Purpose |
-|------|---------|
-| `DESIGN.md` | The design system (what agents read) |
-| `preview.html` | Visual catalog showing color swatches, type scale, buttons, cards |
-| `preview-dark.html` | Same catalog with dark surfaces |
+本项目线上部署采用 Vite 前端 + Vercel Function：
 
-### How to Use
+- `vercel.json` 指定 `npm run build` 和输出目录 `dist`。
+- `api/generate.ts` 是线上 `/api/generate` 入口。
+- `server/index.ts` 仅用于本地开发。
+- Vercel 环境变量需要配置 `AI_BASE_URL`、`AI_API_KEY`、`AI_MODEL`。
+- 修改 Vercel 环境变量后需要重新部署。
 
+部署前建议运行：
 
-1. Copy a site's `DESIGN.md` into your project root
-2. Tell your AI agent to use it.
+```powershell
+npm test
+npm run build
+```
 
+## 本地验证
 
-## Contributing
+```powershell
+npm test
+npm run build
+```
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+真实生成请求会消耗模型额度。排查前可以先用缺字段请求验证接口是否进入校验逻辑，再进行真实模型调用。
 
-- **Improve existing files**: Fix wrong colors, missing tokens, weak descriptions
-- **Report issues**: Let us know if something looks off
+## 设计说明
 
-Before opening a PR, please [open an issue](https://github.com/VoltAgent/awesome-design-md/issues) first to discuss your idea and get feedback from maintainers.
+当前 UI 是粉色玻璃工作台风格：
 
+- 桌面端左右双栏：左侧创作表单，右侧 AI 结果。
+- 移动端单栏。
+- 顶部只保留品牌信息。
+- 生成结果分页查看 3 套文案。
+
+`design-md/` 中的内容来自开源设计文档集合，仅作为设计参考资料保留，不是当前应用的产品说明。
 
 ## License
 
-MIT License - see [LICENSE](LICENSE)
-
-This repository is a curated collection of design system documents extracted from public websites. All DESIGN.md files are provided "as is" without warranty. The extracted design tokens represent publicly visible CSS values. We do not claim ownership of any site's visual identity. These documents exist to help AI agents generate consistent UI.
+本仓库基于原始开源仓库继续开发，原始设计文档集合遵循其对应开源许可。当前追加的小红书文案生成工具代码请以仓库实际许可文件为准。
